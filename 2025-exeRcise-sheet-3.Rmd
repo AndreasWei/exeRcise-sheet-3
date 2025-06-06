@@ -216,7 +216,7 @@ d)  Come up with a (research) question you want to answer with the data
     within one sentence. It should be a question that can be answered
     with the dataset and using R.
     
-    Q:
+    Q: How did much did the global average Temperature change compared to the 1961-1990 global average temperatures?
     
 e)  Use R to answer your chosen question. Please limit your analysis to
     the functions and techniques we have covered so far in the course.
