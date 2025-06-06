@@ -90,7 +90,22 @@ a)  Load the `pixar_films` dataset into R. Clean the dataset by removing
     the possible values and what do they mean? Create a factor variable
     for the film rating. Why is this appropriate?
 
-<!-- -->
+<!-- -->The column "film_rating" holds values "G", "PG", "Not Rated" (gets removed after filtering titleless films), and also rows with "N/A". The values are from the American age rating system for movies. "G" stands for General Audience, "PG" for Parental Guidance Suggested and "Not Rated" and "N/A" mean there is no age rating for the movie.
+```{r, echo=TRUE}
+library(tidyverse)
+pixar_films <- read_csv("data/pixar_films.csv")
+
+pixar_films <- pixar_films %>%
+  filter(!is.na(film))
+
+pixar_films <- pixar_films %>%
+  mutate(
+    film_rating_as_factor = 
+      factor(pixar_films$film_rating,
+         levels = c("G", "PG", "N/A"),
+         labels = c("General Audience", "Parental Guidance Suggested", "Not Rated")))
+```
+
 
 b)  Inspect the film titles manually. Which films form a film series? A
     film series can be identified by a common word in the titles of the
