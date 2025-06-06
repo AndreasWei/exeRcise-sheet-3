@@ -92,7 +92,7 @@ a)  Load the `pixar_films` dataset into R. Clean the dataset by removing
 
 <!-- -->The column "film_rating" holds values "G", "PG", "Not Rated" (gets removed after filtering titleless films), and also rows with "N/A". The values are from the American age rating system for movies. "G" stands for General Audience, "PG" for Parental Guidance Suggested and "Not Rated" and "N/A" mean there is no age rating for the movie.
 
-*Why is this appropriate?*
+'Why is this appropriate?'
 Makes sense cause values in categories or groups, also type factor allows to use r to order, plott, group these values.
 ```{r, echo=TRUE}
 library(tidyverse)
@@ -168,27 +168,28 @@ d)  Choose one of the variables representing the public response and
     
 ```{r}
 combinded_series_films <- film_series %>% 
-  filter(!is.na(series)) %>%  # filtering film not part of a series
-  left_join(combinded_film_data, by = join_by(title == film))
+  filter(!is.na(series)) %>%  # filter films not part of a series
+  left_join(combinded_film_data, by = join_by(title == film)) %>% 
   # joining films part of a series with combinded dataset
-
+  mutate(title = factor(title, levels = title[order(series, release_date)])) 
+  # change type of title to factor and order by series and release date to get needed graph
 
 combinded_series_films %>% 
-  arrange(series) %>% 
     ggplot(aes(
-    x = title,
-    y = metacritic ,
-    group = series,  
-    fill = series
-  )) + geom_bar(stat = "identity", position = "dodge") 
-  
-
-
-
-
-test <- film_series %>% 
-  filter(!is.na(series)) %>%  # filtering film not part of a series
-  left_join(combinded_film_data, by = join_by(title == film))
+      x = title,
+      y = metacritic ,
+      fill = series
+  )
+  ) + 
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Metacrititc Scores across popular Pixar flim series",
+    x = "Films (Grouped by series)",
+    y = "Metacritic Score",
+    fill = "Pixar series"
+  ) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 20, size = 8))
 ```
     
 
