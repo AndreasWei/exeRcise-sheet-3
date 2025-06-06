@@ -212,12 +212,25 @@ d)  Come up with a (research) question you want to answer with the data
     and briefly explain why you believe this is an interesting question
     within one sentence. It should be a question that can be answered
     with the dataset and using R.
+    
+    Q:
+    
 e)  Use R to answer your chosen question. Please limit your analysis to
     the functions and techniques we have covered so far in the course.
     You are **not expected** to use advanced statistical models or
     external packages which haven't been introduced.
+    
 ```{r}
+library(easystats)
 ghg_emmissions <- read_csv("data/GHG Emissions by Country and Sector (CAIT, 2021).csv")
+
+ghg_emmissions <- janitor::clean_names(ghg_emmissions) %>%  
+  filter(entity== "World")   # focus on worldwide ghg emissions 
+  
+model_emissions <-lm(formula = total_including_lucf ~ agriculture + aviation_and_shipping + buildings + electricity_and_heat + energy + fugitive_emissions + industry + manufacturing_and_construction + other_fuel_combustion , data =ghg_emmissions)
+
+report(model_emissions)
+parameters(model_emissions)
 ```
     
 f)  Create a meaningful plot / figure with the dataset. Make sure to
