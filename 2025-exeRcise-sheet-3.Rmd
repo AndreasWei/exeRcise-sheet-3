@@ -205,8 +205,8 @@ a)  Go to <https://github.com/owid/owid-datasets/tree/master/datasets>
 b)  Download the dataset and track it in git.
 c)  Put the name / title of the dataset and a link to it below.
 
--   Dataset Name: Global average temperature anomaly - Hadley Centre
--   Link: <https://github.com/owid/owid-datasets/tree/master/datasets/Global%20average%20temperature%20anomaly%20-%20Hadley%20Centre> 
+-   Dataset Name: GHG Emissions by Country and Sector (CAIT, 2021)
+-   Link: <https://github.com/owid/owid-datasets/tree/master/datasets/GHG%20Emissions%20by%20Country%20and%20Sector%20(CAIT%2C%202021)> 
 
 d)  Come up with a (research) question you want to answer with the data
     and briefly explain why you believe this is an interesting question
@@ -216,6 +216,10 @@ e)  Use R to answer your chosen question. Please limit your analysis to
     the functions and techniques we have covered so far in the course.
     You are **not expected** to use advanced statistical models or
     external packages which haven't been introduced.
+```{r}
+ghg_emmissions <- read_csv("data/GHG Emissions by Country and Sector (CAIT, 2021).csv")
+```
+    
 f)  Create a meaningful plot / figure with the dataset. Make sure to
     provide a figure caption (via the chunk options / Rmarkdown) and
     correctly label the figure.
