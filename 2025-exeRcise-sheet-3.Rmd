@@ -1,7 +1,7 @@
 ---
-title: "Exercise #X"
+title: "Exercise #3"
 subtitle: "Fortgeschrittene Statistische Software für NF"
-author: "Name (Martrikelnummer), Name (Martrikelnummer), ..."
+author: "Andreas Alexander Weiß (12802026)"
 date: "`r Sys.Date()`"
 output: distill::distill_article
 ---
@@ -230,7 +230,7 @@ temperature_wider <- temperature_anomaly %>%
   pivot_wider(names_from = entity, values_from = global_average_temperature_anomaly_hadley_centre)
 
 
-
+# Answer to Research Question
 temperature_wider %>% 
   summarise(change_temperature = max(median))
 ```
