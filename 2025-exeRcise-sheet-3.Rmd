@@ -226,7 +226,13 @@ e)  Use R to answer your chosen question. Please limit your analysis to
 ```{r}
 temperature_anomaly <- read_csv("data/Global average temperature anomaly - Hadley Centre.csv")
 temperature_anomaly <- janitor::clean_names(temperature_anomaly)
+temperature_wider <- temperature_anomaly %>% 
+  pivot_wider(names_from = entity, values_from = global_average_temperature_anomaly_hadley_centre)
 
+
+
+temperature_wider %>% 
+  summarise(change_temperature = max(median))
 ```
     
 f)  Create a meaningful plot / figure with the dataset. Make sure to
@@ -234,8 +240,6 @@ f)  Create a meaningful plot / figure with the dataset. Make sure to
     correctly label the figure.
 
 ```{r Graph_Temperature, fig.cap= "Yearly change of average temperature compared to the 1961-1990 global average temperature"}
-temperature_wider <- temperature_anomaly %>% 
-  pivot_wider(names_from = entity, values_from = global_average_temperature_anomaly_hadley_centre)
 
 temperature_wider %>% 
   ggplot(aes(
