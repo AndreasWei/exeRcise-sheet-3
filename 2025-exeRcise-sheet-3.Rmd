@@ -92,8 +92,11 @@ a)  Load the `pixar_films` dataset into R. Clean the dataset by removing
 
 <!-- -->The column "film_rating" holds values "G", "PG", "Not Rated" (gets removed after filtering titleless films), and also rows with "N/A". The values are from the American age rating system for movies. "G" stands for General Audience, "PG" for Parental Guidance Suggested and "Not Rated" and "N/A" mean there is no age rating for the movie.
 
+
 'Why is this appropriate?'
 Makes sense cause values in categories or groups, also type factor allows to use r to order, plott, group these values.
+
+
 ```{r, echo=TRUE}
 library(tidyverse)
 pixar_films <- read_csv("data/pixar_films.csv")
@@ -205,8 +208,8 @@ a)  Go to <https://github.com/owid/owid-datasets/tree/master/datasets>
 b)  Download the dataset and track it in git.
 c)  Put the name / title of the dataset and a link to it below.
 
--   Dataset Name: GHG Emissions by Country and Sector (CAIT, 2021)
--   Link: <https://github.com/owid/owid-datasets/tree/master/datasets/GHG%20Emissions%20by%20Country%20and%20Sector%20(CAIT%2C%202021)> 
+-   Dataset Name: Global average temperature anomaly - Hadley Centre
+-   Link: <https://github.com/owid/owid-datasets/tree/master/datasets/Global%20average%20temperature%20anomaly%20-%20Hadley%20Centre> 
 
 d)  Come up with a (research) question you want to answer with the data
     and briefly explain why you believe this is an interesting question
@@ -221,31 +224,37 @@ e)  Use R to answer your chosen question. Please limit your analysis to
     external packages which haven't been introduced.
     
 ```{r}
-library(easystats)
-ghg_emmissions <- read_csv("data/GHG Emissions by Country and Sector (CAIT, 2021).csv")
+temperature_anomaly <- read_csv("data/Global average temperature anomaly - Hadley Centre.csv")
+temperature_anomaly <- janitor::clean_names(temperature_anomaly)
 
-ghg_emmissions <- janitor::clean_names(ghg_emmissions) %>%  
-  filter(entity== "World")   # focus on worldwide ghg emissions 
-  
-model_emissions <-lm(formula = total_including_lucf ~ agriculture + aviation_and_shipping + buildings + electricity_and_heat + energy + fugitive_emissions + industry + manufacturing_and_construction + other_fuel_combustion , data =ghg_emmissions)
-
-report(model_emissions)
-parameters(model_emissions)
 ```
     
 f)  Create a meaningful plot / figure with the dataset. Make sure to
     provide a figure caption (via the chunk options / Rmarkdown) and
     correctly label the figure.
-```{r}
-ghg_emmissions$prediction_total_including_lucf <- predict(model_emissions, newdata = ghg_emmissions)
 
-ghg_emmissions %>% 
+```{r Graph_Temperature, fig.cap= "Yearly change of average temperature compared to the 1961-1990 global average temperature"}
+temperature_wider <- temperature_anomaly %>% 
+  pivot_wider(names_from = entity, values_from = global_average_temperature_anomaly_hadley_centre)
+
+temperature_wider %>% 
   ggplot(aes(
-    y = total_excluding_lucf,
-    x = electricity_and_heat
-  )
-  ) + geom_point()
+     y = median,
+     x = year
+    )
+  ) + geom_line()+
+  geom_line(mapping = aes(y = upper, x = year, color = "Upper"))+
+  geom_line(mapping = aes(y = lower, x = year, color = "Lower" ))+
+  scale_color_manual(values = c("Upper" = "red", "Lower" = "blue")) +
+  theme_bw()+ 
+    labs(
+      y = "Global average temperature anomaly",
+      x = "Year",
+      color = "Color"
+    )
 ```
+
+
 
 ## Final Note
 
