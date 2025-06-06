@@ -236,6 +236,16 @@ parameters(model_emissions)
 f)  Create a meaningful plot / figure with the dataset. Make sure to
     provide a figure caption (via the chunk options / Rmarkdown) and
     correctly label the figure.
+```{r}
+ghg_emmissions$prediction_total_including_lucf <- predict(model_emissions, newdata = ghg_emmissions)
+
+ghg_emmissions %>% 
+  ggplot(aes(
+    y = total_excluding_lucf,
+    x = electricity_and_heat
+  )
+  ) + geom_point()
+```
 
 ## Final Note
 
