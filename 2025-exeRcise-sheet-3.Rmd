@@ -91,6 +91,9 @@ a)  Load the `pixar_films` dataset into R. Clean the dataset by removing
     for the film rating. Why is this appropriate?
 
 <!-- -->The column "film_rating" holds values "G", "PG", "Not Rated" (gets removed after filtering titleless films), and also rows with "N/A". The values are from the American age rating system for movies. "G" stands for General Audience, "PG" for Parental Guidance Suggested and "Not Rated" and "N/A" mean there is no age rating for the movie.
+
+*Why is this appropriate?*
+Makes sense cause values in categories or groups, also type factor allows to use r to order, plott, group these values.
 ```{r, echo=TRUE}
 library(tidyverse)
 pixar_films <- read_csv("data/pixar_films.csv")
@@ -162,6 +165,32 @@ d)  Choose one of the variables representing the public response and
 
     What do you notice when comparing the scores of the films in a
     series? Do you see any patterns?
+    
+```{r}
+combinded_series_films <- film_series %>% 
+  filter(!is.na(series)) %>%  # filtering film not part of a series
+  left_join(combinded_film_data, by = join_by(title == film))
+  # joining films part of a series with combinded dataset
+
+
+combinded_series_films %>% 
+  arrange(series) %>% 
+    ggplot(aes(
+    x = title,
+    y = metacritic ,
+    group = series,  
+    fill = series
+  )) + geom_bar(stat = "identity", position = "dodge") 
+  
+
+
+
+
+test <- film_series %>% 
+  filter(!is.na(series)) %>%  # filtering film not part of a series
+  left_join(combinded_film_data, by = join_by(title == film))
+```
+    
 
 ## Exercise 4: Open Analysis (4 points)
 
